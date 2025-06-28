@@ -125,13 +125,17 @@ document.addEventListener('DOMContentLoaded', function() {
     importInput.addEventListener('change', importFromJSONFile);
       
     function populateCategories() {
-        const categorySet = new Set();
-        quotes.forEach(q => categorySet.add(q.category));
+        // const categorySet = new Set();
+        // quotes.forEach(q => categorySet.add(q.category));
 
         const dropdown = document.getElementById('categoryFilter');
         dropdown.innerHTML = '<option value="all">All Categories</option>';
 
-        categorySet.forEach(cat => {
+        const categories = quotes.map(q => q.category);
+
+        const uniqueCategories = [...new Set(categories)];
+
+        uniqueCategories.forEach(cat => {
             const option = document.createElement('option');
             option.value = cat;
             option.textContent = cat;
