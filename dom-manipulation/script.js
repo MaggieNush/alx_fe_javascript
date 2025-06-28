@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
         alert("Quote added succesfully!")
     }
 
-    function showRandomQuote() {
+    function createAddQuoteForm() {
         let form = document.createElement('form');
         let quoteInput = document.createElement('input');
         quoteInput.type = "text";
@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('quoteDisplay').innerHTML = `"${randomQuote.text}" - ${randomQuote.category}`
     });
         
-    showRandomQuote();
+    createAddQuoteForm();
     
 });
 
