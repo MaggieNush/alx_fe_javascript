@@ -174,7 +174,7 @@ document.addEventListener('DOMContentLoaded', function() {
         { text: "Well synced.", category: "Tech"}
     ]
 
-    function fetchFromServer() {
+    function fetchQuotesFromServer() {
         return new Promise(resolve => {
             setTimeout(() => {
                 resolve(mockServerQuotes);
@@ -192,7 +192,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function syncWithServer() {
-        fetchFromServer().then(serverQuotes => {
+        fetchQuotesFromServer().then(serverQuotes => {
             const localQuotes = JSON.parse(localStorage.getItem('quotes')) || [];
 
             const localJson = JSON.stringify(localQuotes);
