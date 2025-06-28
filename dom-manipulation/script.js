@@ -119,7 +119,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }; 
 
-    fileReader.readAsText(event.target.files[0]);
+    FileReader.readAsText(event.target.files[0]);
 
     const importInput = document.getElementById('importFile');
     importInput.addEventListener('change', importFromJSONFile);
