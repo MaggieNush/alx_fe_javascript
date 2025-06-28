@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function addQuote(text, category) {
         quotes.push({text, category});
         saveQuotes();
+        postToServer(quotes);
         populateCategories();
         alert("Quote added succesfully!")
     }
@@ -125,9 +126,6 @@ document.addEventListener('DOMContentLoaded', function() {
     importInput.addEventListener('change', importFromJSONFile);
       
     function populateCategories() {
-        // const categorySet = new Set();
-        // quotes.forEach(q => categorySet.add(q.category));
-
         const dropdown = document.getElementById('categoryFilter');
         dropdown.innerHTML = '<option value="all">All Categories</option>';
 
@@ -174,40 +172,51 @@ document.addEventListener('DOMContentLoaded', function() {
         { text: "Well synced.", category: "Tech"}
     ]
 
-    function fetchQuotesFromServer() {
-        return new Promise(resolve => {
-            setTimeout(() => {
-                resolve(mockServerQuotes);
-            }, 1000);
-        });
+    async function fetchQuotesFromServer() {
+        try {
+            const response = await fetch('https://jsonplaceholder.typicode.com/posts?_limit=5');
+            const data = await response.json();
+
+            return data.map(post => ({
+                text: post.title,
+                category: 'Server'
+            }));
+        } catch (error) {
+            console.error('Failed to fetch data from server', error);
+            return [];
+        }
     }
 
-    function postToServer(newQuotes) {
-        return new Promise(resolve => {
-            setTimeout(() => {
-                mockServerQuotes = [...newQuotes];
-                resolve("Server updated!");
-            }, 1000);
-        });
+    async function postToServer(newQuotes) {
+        try {
+            const response = await fetch('https://jsonplaceholder.typicode.com/posts', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(newQuotes)
+            });
+
+            const result = await response.json();
+            console.log('Posted to server:', result);
+        } catch (error) {
+            console.error('Failed to post to server', error);
+        }
     }
 
-    function syncWithServer() {
-        fetchQuotesFromServer().then(serverQuotes => {
-            const localQuotes = JSON.parse(localStorage.getItem('quotes')) || [];
+    async function syncWithServer() {
+        const serverQuotes = await fetchQuotesFromServer();
+        const localQuotes = JSON.parse(localStorage.getItem('quotes')) || [];
 
-            const localJson = JSON.stringify(localQuotes);
-            const serverJson = JSON.stringify(serverQuotes);
+        const localJson = JSON.stringify(localQuotes);
+        const serverJson = JSON.stringify(serverQuotes);
 
-            if (localJson !== serverJson) {
-                localStorage.setItem('quotes', JSON.stringify(serverQuotes));
-                quotes = serverQuotes;
-                populateCategories();
-                alert("Quotes updated from server (server took priority).");
-            
-            }
-        });
-    
-    showNotification("Quotes updated from server (server took priority).");
+        if (localJson !== serverJson) {
+            localStorage.setItem('quotes', JSON.stringify(serverQuotes));
+            quotes = serverQuotes;
+            populateCategories();
+            showNotification("Quotes update from server")
+        }
     }
 
     syncWithServer();
