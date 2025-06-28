@@ -15,15 +15,15 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('quoteDisplay').innerHTML = `"${randomQuote.text}" - ${randomQuote.category}`
     });
 
-    function createAddQuoteForm() {
+    function showRandomQuote() {
         let form = document.createElement('form');
         let quoteInput = document.createElement('input');
         quoteInput.type = "text";
-        quoteInput.placeholder = "Enter your quote";
+        quoteInput.placeholder = "Enter a new quote";
 
         let categoryInput = document.createElement('input');
         categoryInput.type = "text";
-        categoryInput.placeholder = "Enter the category";
+        categoryInput.placeholder = "Enter quote category";
 
         let submitButton = document.createElement('button');
         submitButton.type = "submit";
@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', function() {
             let newText = quoteInput.value;
             let newCategory = categoryInput.value;
 
-            if (newText.trim() === "" || newCategory.trim === "") {
+            if (newText.trim() === "" || newCategory.trim() === "") {
                 alert("Please fill in both the quote and category");
                 return;
 
@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     };
         
-        createAddQuoteForm();
+    showRandomQuote();
     
 });
 
