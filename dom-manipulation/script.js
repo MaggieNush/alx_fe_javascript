@@ -210,7 +210,7 @@ document.addEventListener('DOMContentLoaded', function() {
             localStorage.setItem('quotes', JSON.stringify(serverQuotes));
             quotes = serverQuotes;
             populateCategories();
-            showNotification("Quotes update from server")
+            showNotification("Quotes synced with server!")
         }
     }
 
