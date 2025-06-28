@@ -49,15 +49,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
     }
 
+
+    function showRandomQuote() {
+        let randomIndex = Math.floor(Math.random() * quotes.length);
+        let randomQuote = quotes[randomIndex]
+
+    document.getElementById('quoteDisplay').innerHTML = `"${randomQuote.text}" - ${randomQuote.category}`;
+    }
+
     const newQuoteButton = document.getElementById('newQuote');
 
-    newQuoteButton.addEventListener('click', function() {
-
-    let randomIndex = Math.floor(Math.random() * quotes.length);
-    let randomQuote = quotes[randomIndex]
-
-    document.getElementById('quoteDisplay').innerHTML = `"${randomQuote.text}" - ${randomQuote.category}`
-    });
+    newQuoteButton.addEventListener('click', showRandomQuote);
         
     createAddQuoteForm();
     
