@@ -92,6 +92,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
         
     createAddQuoteForm();
+    const exportButton = document.getElementById('exportQuotes');
+    exportButton.addEventListener('click', exportToJsonFile);
     
 });
 
