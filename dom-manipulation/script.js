@@ -169,6 +169,59 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('quoteDisplay').innerHTML = `"${randomQuote.text}" - ${randomQuote.category}`;
     }
 
+    let mockServerQuotes = [
+        { text: "Server-side wisdom.", category: "Server"},
+        { text: "Well synced.", category: "Tech"}
+    ]
+
+    function fetchFromServer() {
+        return new Promise(resolve => {
+            setTimeout(() => {
+                resolve(mockServerQuotes);
+            }, 1000);
+        });
+    }
+
+    function postToServer(newQuotes) {
+        return new Promise(resolve => {
+            setTimeout(() => {
+                mockServerQuotes = [...newQuotes];
+                resolve("Server updated!");
+            }, 1000);
+        });
+    }
+
+    function syncWithServer() {
+        fetchFromServer().then(serverQuotes => {
+            const localQuotes = JSON.parse(localStorage.getItem('quotes')) || [];
+
+            const localJson = JSON.stringify(localQuotes);
+            const serverJson = JSON.stringify(serverQuotes);
+
+            if (localJson !== serverJson) {
+                localStorage.setItem('quotes', JSON.stringify(serverQuotes));
+                quotes = serverQuotes;
+                populateCategories();
+                alert("Quotes updated from server (server took priority).");
+            
+            }
+        });
+    
+    showNotification("Quotes updated from server (server took priority).");
+    }
+
+    syncWithServer();
+    setInterval(syncWithServer, 10000);
+
+    function showNotification(message) {
+        const note = document.getElementById('notification');
+        note.textContent = message;
+        note.style.display = 'block';
+        setTimeout(() => {
+            note.style.display = 'none';
+        }, 5000);
+    }
+
     createAddQuoteForm();
     const exportButton = document.getElementById('exportQuotes');
     exportButton.addEventListener('click', exportToJsonFile);
