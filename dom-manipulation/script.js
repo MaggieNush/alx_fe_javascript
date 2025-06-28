@@ -90,6 +90,39 @@ document.addEventListener('DOMContentLoaded', function() {
 
         URL.revokeObjectURL(url);
     }
+
+    function importFromJSONFile(event) {
+        const fileReader = new fileReader();
+
+        fileReader.onload = function(event) {
+            try {
+                const importedQuotes = JSON.parse(event.target.result);
+
+                if (Array.isArray(importedQuotes)) {
+                    importedQuotes.forEach(q => {
+                        if (q.text && q.category) {
+                            quotes.push(q);
+                        }
+                    });
+
+                    saveQuotes();
+                    alert("Quotes imported successfully!");
+                } else {
+                    alert("Invalid file format. Please upload a valid quotes JSON.");
+
+                } 
+            
+            } catch (error) {
+                alert("Error reading this file. Make sure it's a valid JSON.");
+                console.error(error);
+            }
+        }
+    }; 
+
+    fileReader.readAsText(event.target.files[0]);
+
+    const importInput = document.getElementById('importFile');
+    importInput.addEventListener('change', importFromJSONFile);
         
     createAddQuoteForm();
     const exportButton = document.getElementById('exportQuotes');
