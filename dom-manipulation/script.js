@@ -1,19 +1,14 @@
 document.addEventListener('DOMContentLoaded', function() {
     let quotes = [
-        { text: "Stay juicy, my friend.", category: "Motivation" },
+    { text: "Stay juicy, my friend.", category: "Motivation" },
     { text: "Fruits first, drama later.", category: "Health" },
     { text: "You're doing better than you think.", category: "Encouragement" }
     ];
 
-    const newQuoteButton = document.getElementById('newQuote');
-
-    newQuoteButton.addEventListener('click', function() {
-
-    let randomIndex = Math.floor(Math.random() * quotes.length);
-    let randomQuote = quotes[randomIndex]
-
-    document.getElementById('quoteDisplay').innerHTML = `"${randomQuote.text}" - ${randomQuote.category}`
-    });
+    function addQuote(text, category) {
+        quotes.push({text, category});
+        alert("Quote added succesfully!")
+    }
 
     function showRandomQuote() {
         let form = document.createElement('form');
@@ -35,7 +30,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
         document.body.appendChild(form);
 
-        form.addEventListener('submit', function addQuote(event) {
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
             let newText = quoteInput.value;
             let newCategory = categoryInput.value;
 
@@ -45,18 +41,23 @@ document.addEventListener('DOMContentLoaded', function() {
 
             }
 
-            quotes.push({
-                text: newText,
-                category: newCategory
-            });
-
-            alert("Quote added successfully!");
+            addQuote(newText, newCategory);
 
             quoteInput.value = "";
             categoryInput.value = "";
         }); 
 
-    };
+    }
+
+    const newQuoteButton = document.getElementById('newQuote');
+
+    newQuoteButton.addEventListener('click', function() {
+
+    let randomIndex = Math.floor(Math.random() * quotes.length);
+    let randomQuote = quotes[randomIndex]
+
+    document.getElementById('quoteDisplay').innerHTML = `"${randomQuote.text}" - ${randomQuote.category}`
+    });
         
     showRandomQuote();
     
