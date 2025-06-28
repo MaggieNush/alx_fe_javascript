@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         document.body.appendChild(form);
 
-        form.addEventListener('submit', function(event) {
+        form.addEventListener('submit', function addQuote(event) {
             let newText = quoteInput.value;
             let newCategory = categoryInput.value;
 
