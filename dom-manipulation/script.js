@@ -167,11 +167,6 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('quoteDisplay').innerHTML = `"${randomQuote.text}" - ${randomQuote.category}`;
     }
 
-    let mockServerQuotes = [
-        { text: "Server-side wisdom.", category: "Server"},
-        { text: "Well synced.", category: "Tech"}
-    ]
-
     async function fetchQuotesFromServer() {
         try {
             const response = await fetch('https://jsonplaceholder.typicode.com/posts?_limit=5');
@@ -204,7 +199,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    async function syncWithServer() {
+    async function syncQuotes() {
         const serverQuotes = await fetchQuotesFromServer();
         const localQuotes = JSON.parse(localStorage.getItem('quotes')) || [];
 
@@ -219,7 +214,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    syncWithServer();
+    syncQuotes();
     setInterval(syncWithServer, 10000);
 
     function showNotification(message) {
